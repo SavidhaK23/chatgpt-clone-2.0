@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Clone 2.0</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-robot"></i> ChatGPT Clone 2.0</h1>
+                <p>Powered by Google Gemini AI</p>
+            </div>
+        </header>
+
+        <!-- Main Chat Area -->
+        <main class="main-content">
+            <!-- Chat Messages -->
+            <div class="chat-container">
+                <div id="chat-messages" class="chat-messages">
+                    <!-- Welcome message -->
+                    <div class="message assistant-message">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-text">Hello! I'm your AI assistant. How can I help you today?</div>
+                            <div class="message-timestamp">Just now</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea 
+                        id="message-input" 
+                        class="message-input" 
+                        placeholder="Type your message here... (Press Enter to send, Shift+Enter for new line)"
+                        rows="1"
+                        maxlength="4000"
+                    ></textarea>
+                    <div class="input-controls">
+                        <div class="char-count">
+                            <span id="char-count">0</span>/4000
+                        </div>
+                        <button id="send-button" class="send-button" disabled>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <!-- Model Selection -->
+                <div class="control-group">
+                    <label for="model-select">AI Model:</label>
+                    <select id="model-select" class="control-input">
+                        {% for model in models %}
+                        <option value="{{ model }}" {% if model == 'gemini-1.5-flash' %}selected{% endif %}>
+                            {{ model }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Temperature Control -->
+                <div class="control-group">
+                    <label for="temperature">
+                        Creativity: <span id="temp-value">0.7</span>
+                    </label>
+                    <input 
+                        type="range" 
+                        id="temperature" 
+                        class="control-input" 
+                        min="0" 
+                        max="2" 
+                        step="0.1" 
+                        value="0.7"
+                    >
+                    <div class="temp-labels">
+                        <span>Focused</span>
+                        <span>Creative</span>
+                    </div>
+                </div>
+
+                <!-- Clear Chat Button -->
+                <div class="control-group">
+                    <button id="clear-chat" class="clear-button">
+                        <i class="fas fa-trash"></i> Clear Chat
+                    </button>
+                </div>
+
+                <!-- Info Section -->
+                <div class="info-section">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Free AI API Access</li>
+                        <li><i class="fas fa-check"></i> Multiple AI Models</li>
+                        <li><i class="fas fa-check"></i> Chat History</li>
+                        <li><i class="fas fa-check"></i> Responsive Design</li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>AI is thinking...</p>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="error-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Error</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="error-message">An error occurred while processing your request.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button" onclick="document.getElementById('error-modal').style.display='none'">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
