@@ -8,6 +8,9 @@ import uuid
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-here'  # Change this in production
 
+# WSGI application for Vercel
+application = app
+
 # Configuration - Google Gemini API only
 API_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta'
 API_KEY = 'AIzaSyAOlq2dN66hGoQOWhiZMJ_lRmz4kRk52Sw'  # Working Gemini API key
